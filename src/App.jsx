@@ -1,54 +1,60 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Filter from "./components/Filter";
-import Cards from "./components/Cards";
-import { apiUrl, filterData } from "./data";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import Spinner from "./components/Spinner";
+import React, { useState,useEffect } from "react";
+import Navbar from './components/Navbar'
+import Filter from './components/Filter'
+import Cards from './components/Cards'
+import Spinner from './components/Spinner'
+import { apiUrl,filterData } from "./data";
+
 
 const App = () => {
+  const [courses,setCourses]=useState(null)
+  const [loading,setLoading]=useState(true)
+  const [category,setCategory]=useState(filterData[0].title)
 
-  const[courses, setCourses] = useState();
-  const[loading, setLoading] = useState(true);
-
-  const fetchData = async() => {
-    setLoading(true);
+  async function fetchData(){
+    setLoading(true)
     try{
-      const res = await fetch(apiUrl);
-      const output = await res.json();
-      // save data into a variable
-      console.log(output.data);
-      setCourses(output.data);
+        let response=await fetch(apiUrl)
+        let output=await response.json()
+
+        setCourses(output.data)
+        
     }
+    
+    
     catch(error){
-      toast.error("Something went wrong");
+      console.log("network error")
     }
-    setLoading(false);
+    setLoading(false)
   }
 
-  useEffect( () =>{
-    fetchData();
-  },[])
+  useEffect(() => {
+    fetchData()
+  }, [])
+  
 
-  return (
+
+
+ return(
+  <div className="min-h-screen flex flex-col  bg-bgDark2">
     <div>
-      <div>
-        <Navbar />
-      </div>
-
-      <div>
-        <Filter filterData={filterData}/>
-      </div>
-
-      <div>
-        {/* <Cards courses={courses}/> */}
-        {
-          loading ? (<Spinner/>) : (<Cards courses={courses}/>)
-        }
-      </div>
+      <Navbar />
     </div>
-  );
-}
+
+    <div className="bg-bgDark2">
+    <div>
+      <Filter filterData={filterData} category={category} setCategory={setCategory}/>
+    </div>
+    <div
+    className="w-11/12 max-w-[1200px] mx-auto flex-wrap flex justify-center items-center min-h-[50vh]">
+      {loading ? <Spinner/> : <Cards courses={courses} category={category}/>}
+      
+    </div>
+
+    </div>
+    
+  </div>
+ )
+};
 
 export default App;

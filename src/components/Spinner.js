@@ -1,13 +1,13 @@
-import React from "react";
-import './Spinner.css';
+import React from 'react'
+import './Spinner.css'
 
-const Spinner = () => {
-    return(
-        <div>
-            <div className="spinner"></div>
-            <p>Loading...</p>
-        </div>
-    )
+export default function Spinner() {
+  return (
+    <div className='flex flex-col items-cneter soace-y-2'>
+      <div className='custom-loader'>
+
+      </div>
+      <p className='text-bgDark text-lg font-semibold'>loading.....</p>
+    </div>
+  )
 }
-
-export default Spinner;

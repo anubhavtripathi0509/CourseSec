@@ -1,33 +1,38 @@
-import react  from "react";
-import Card from "./Card";
+import React, { useState } from 'react'
+import Card from './Card'
 
-const Cards = ({courses}) => {
-    let allCourses=[];
+export default function Cards(props) {
+  let courses=props.courses 
+  const [likedCourses,setLikedCourses]=useState([])
+  let category=props.category
 
-    // returns you a list of all courses received from the api response
-    const getCourses = () => {
-        Object.values(courses).forEach( (courseCategory) => {
-            courseCategory.forEach((course)=>{
-                allCourses.push(course);
-            })
-        })
-        return allCourses;
+
+  function getCourses(){
+    if(category==="All"){
+      let allCourses=[]
+    Object.values(courses).forEach(array =>{
+      array.forEach(courseData =>{
+        allCourses.push(courseData)
+      })
+    })
+    return allCourses
+
     }
+    else{
+      return courses[category]
+    }
+    
+  }
+  
+  return (
+    <div className='flex flex-wrap jistify-center gap-4 mb-4'>
+      {
+        getCourses().map((course)=>(
+          <Card  key={course.id} course={course} likedCourses={likedCourses}setLikedCourses={setLikedCourses}/>
 
+        ))
+      }
 
-    return(
-        <div>
-            {!courses ? (
-                <div>
-                    <p> No Data Found</p>
-                </div>
-            ) : (
-                getCourses().map( (course) => {
-                    return <Card key={course.id} course = {course} />
-                })
-            )}
-        </div>
-    )
+    </div>
+  )
 }
-
-export default Cards;

@@ -1,14 +1,38 @@
-.spinner {
-    width: 56px;
-    height: 56px;
-    border: 11.2px #474bff double;
-    border-left-style: solid;
-    border-radius: 50%;
-    animation: spinner-aib1d7 0.75s infinite linear;
+.custom-loader {
+   --R:30px;
+   --g1:#766DF4 96%, #0000;
+   --g2:#E4E4ED 96%, #0000;
+   width: calc(2*var(--R));
+   height:calc(2*var(--R));
+   border-radius:50%;
+   display: grid;
+   -webkit-mask:linear-gradient(#000 0 0);
+   animation: s10 2s infinite linear;
  }
  
- @keyframes spinner-aib1d7 {
-    to {
-       transform: rotate(360deg);
-    }
+ .custom-loader::before,
+ .custom-loader::after{
+   content:"";
+   grid-area: 1/1;
+   width:50%;
+   background:
+     radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+     radial-gradient(farthest-side,var(--g1)) calc(var(--R) + 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+     radial-gradient(farthest-side,var(--g2)) calc(var(--R) + 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+     radial-gradient(farthest-side,var(--g1)) 0 calc(-1*var(--R)),
+     radial-gradient(farthest-side,var(--g2)) calc(var(--R) - 0.5*var(--R)   - var(--R)) calc(var(--R) - 0.866*var(--R) - var(--R)),
+     radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) - 0.5*var(--R)   - var(--R)),
+     radial-gradient(farthest-side,var(--g2)) calc(-1*var(--R))  0,
+     radial-gradient(farthest-side,var(--g1)) calc(var(--R) - 0.866*var(--R) - var(--R)) calc(var(--R) + 0.5*var(--R)   - var(--R));
+    background-size:calc(2*var(--R)) calc(2*var(--R));
+    background-repeat:no-repeat;
+ }
+ 
+ .custom-loader::after {
+  transform:rotate(180deg);
+  transform-origin:right;
+ }
+ 
+ @keyframes s10 {
+   100% {transform: rotate(-1turn)}
  }
